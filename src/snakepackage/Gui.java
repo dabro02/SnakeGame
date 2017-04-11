@@ -88,6 +88,7 @@ public class Gui extends JPanel{
                 }
             });
                 game.frame.setBounds(700, 200, 600, 600);
+                game.frame.setResizable(false);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

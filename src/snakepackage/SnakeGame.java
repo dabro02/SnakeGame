@@ -2,6 +2,8 @@ package snakepackage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 /**
  * Created by Daniel on 06.04.2017.
@@ -12,6 +14,8 @@ public class SnakeGame {
     Gui gui;
     Window window;
     public int screen = 0;
+    public int screenWidth = 600;
+    public int screenHight = 600;
 
     public static void main(String[] args){
         new SnakeGame().start();
@@ -19,6 +23,7 @@ public class SnakeGame {
 
     void start() {
         frame = new JFrame("Snake - Game");
+        frame.addKeyListener(new KeyListener(this));
         startMenu();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -45,6 +50,11 @@ public class SnakeGame {
             }
         }).start();
         frame.add(window);
+    }
+
+    public void getScreen(){
+          screenWidth =  frame.getWidth();
+          screenHight = frame.getHeight();
     }
 
 }

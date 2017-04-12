@@ -56,7 +56,7 @@ public class Gui extends JPanel{
                         if (startGame.pressed) {
                             startGame.buttonReleased();
                             startGame.pressed = false;
-                            game.startGame();
+                            game.window.startWindow();
                             repaint();
                         }
                         else if (settings.pressed) {
@@ -88,8 +88,6 @@ public class Gui extends JPanel{
 
                 }
             });
-                game.frame.setBounds(700, 200, 600, 600);
-                game.frame.setResizable(false);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -98,6 +96,13 @@ public class Gui extends JPanel{
                     }
                 }).start();
         }
+    }
+
+    public void startMenu() {
+
+        game.screen = 0;
+        game.frame.setBounds(700, 200, 600, 600);
+        game.frame.setResizable(false);
     }
 
     @Override

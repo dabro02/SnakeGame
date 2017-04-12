@@ -10,6 +10,7 @@ import java.awt.event.WindowListener;
  */
 public class SnakeGame {
 
+    int fenster = 0;
     JFrame frame;
     Gui gui;
     Window window;
@@ -24,13 +25,15 @@ public class SnakeGame {
     void start() {
         frame = new JFrame("Snake - Game");
         frame.addKeyListener(new KeyListener(this));
+        screen = 0;
+        startGame();
         startMenu();
+        gui.startMenu();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
     public void startMenu(){
-        screen = 0;
         gui = new Gui(this);
         new Thread(new Runnable() {
             @Override
@@ -41,7 +44,6 @@ public class SnakeGame {
         frame.add(gui);
     }
     public void startGame(){
-        screen = 1;
         window = new Window(this);
         new Thread(new Runnable() {
             @Override

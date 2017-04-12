@@ -17,12 +17,9 @@ public class Window extends JPanel {
     Window(SnakeGame game){
         if(game.screen == 1) {
             this.game = game;
-            game.frame.setBounds(200, 100, 1500, 900);
             game.getScreen();
-            System.out.println(game.screenWidth+ "  "+ game.screenWidth/2);
             this.restart = new Buttons((game.screenWidth/2*1)-75, game.screenHight/5, 150,50, Color.BLACK, 0.5f,0.6f,0, "Restart");
             this.backToMenu = new Buttons((game.screenWidth/2*1)-75, game.screenHight/5*2, 150,50,Color.BLACK, 0.5f,0.6f,0, "Menü");
-            game.frame.setResizable(true);
             game.frame.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -49,13 +46,18 @@ public class Window extends JPanel {
                         if(restart.pressed){
                             restart.buttonReleased();
                             restart.pressed = false;
+                            game.gui.startMenu();
+                            game.fenster++;
                             repaint();
                         }
                         else if(backToMenu.pressed){
                             backToMenu.buttonReleased();
                             backToMenu.pressed = false;
+                            game.startMenu();
+                            game.fenster++;
                             repaint();
                         }
+                        System.out.println(game.fenster);
                     }
                 }
 
@@ -72,6 +74,13 @@ public class Window extends JPanel {
 
 
         }
+    }
+
+    public void startWindow() {
+
+        game.screen = 1;
+        game.frame.setBounds(200, 100, 1500, 900);
+        game.frame.setResizable(true);
     }
 
     @Override
@@ -96,8 +105,16 @@ public class Window extends JPanel {
     }
 
     public void updateWindow(){
-        int oldscreenwidth = game.screenWidth;
-        int oldscreenheight = game.screenHight;
+        int oldscreenwidth =  0;
+        int oldscreenheight = 0;
+        try{
+            oldscreenwidth = game.screenWidth;
+            oldscreenheight = game.screenHight;
+        }
+        catch(Exception e){
+
+        }
+
         while(true){
             if(game.screen == 1){
 

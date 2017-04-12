@@ -14,8 +14,8 @@ public class KeyListener implements java.awt.event.KeyListener{
 
     @Override
     public void keyTyped(KeyEvent e) {
-        System.out.println(e.getKeyCode());
-        System.out.println(e.getKeyChar());
+        /*System.out.println(e.getKeyCode());
+        System.out.println(e.getKeyChar());*/
         if(game.screen == 1){
         if(e.getKeyCode() == 0){
             if(game.window.paused){

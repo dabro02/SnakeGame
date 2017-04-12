@@ -34,15 +34,15 @@ public class Gui extends JPanel{
                             startGame.buttonPressed();
                             repaint();
                         }
-                        if (settings.buttonPointed(e.getX(), e.getY())) {
+                        else if (settings.buttonPointed(e.getX(), e.getY())) {
                             settings.buttonPressed();
                             repaint();
                         }
-                        if (info.buttonPointed(e.getX(), e.getY())) {
+                        else if (info.buttonPointed(e.getX(), e.getY())) {
                             info.buttonPressed();
                             repaint();
                         }
-                        if (exit.buttonPointed(e.getX(), e.getY())) {
+                        else if (exit.buttonPointed(e.getX(), e.getY())) {
                             exit.buttonPressed();
                             repaint();
                         }
@@ -56,22 +56,23 @@ public class Gui extends JPanel{
                         if (startGame.pressed) {
                             startGame.buttonReleased();
                             startGame.pressed = false;
-                            repaint();
                             game.startGame();
+                            repaint();
                         }
-                        if (settings.pressed) {
+                        else if (settings.pressed) {
                             settings.buttonReleased();
                             settings.pressed = false;
                             repaint();
                         }
-                        if (info.pressed) {
+                        else if (info.pressed) {
                             info.buttonReleased();
                             info.pressed = false;
                             repaint();
                         }
-                        if (exit.pressed) {
+                        else if (exit.pressed) {
                             exit.buttonReleased();
                             exit.pressed = false;
+                            System.exit(0);
                             repaint();
                         }
                     }
@@ -128,7 +129,6 @@ public class Gui extends JPanel{
                 settings.buttonPointed(x,y);
                 info.buttonPointed(x,y);
                 exit.buttonPointed(x,y);
-                repaint();
             }
             repaint();
         }

@@ -2,6 +2,8 @@ package snakepackage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Created by Daniel on 06.04.2017.
@@ -15,10 +17,59 @@ public class Window extends JPanel {
     Window(SnakeGame game){
         if(game.screen == 1) {
             this.game = game;
-            this.restart = new Buttons((game.screenWidth/2)-75, game.screenHight/3, 150,50, Color.BLACK, 0.5f,0.6f,0, "Restart");
-            this.backToMenu = new Buttons((game.screenWidth/2)-75, game.screenHight/6*4, 150,50,Color.BLACK, 0.5f,0.6f,0, "Menü");
-            game.frame.setResizable(true);
             game.frame.setBounds(200, 100, 1500, 900);
+            game.getScreen();
+            System.out.println(game.screenWidth+ "  "+ game.screenWidth/2);
+            this.restart = new Buttons((game.screenWidth/2*1)-75, game.screenHight/5, 150,50, Color.BLACK, 0.5f,0.6f,0, "Restart");
+            this.backToMenu = new Buttons((game.screenWidth/2*1)-75, game.screenHight/5*2, 150,50,Color.BLACK, 0.5f,0.6f,0, "Menü");
+            game.frame.setResizable(true);
+            game.frame.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    if(game.screen == 1){
+                        if(restart.buttonPointed(e.getX(),e.getY())){
+                            restart.buttonPressed();
+                            repaint();
+                        }
+                        else if(backToMenu.buttonPointed(e.getX(),e.getY())){
+                            backToMenu.buttonPressed();
+                            repaint();
+                        }
+                    }
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    if(game.screen == 1) {
+                        if(restart.pressed){
+                            restart.buttonReleased();
+                            restart.pressed = false;
+                            repaint();
+                        }
+                        else if(backToMenu.pressed){
+                            backToMenu.buttonReleased();
+                            backToMenu.pressed = false;
+                            repaint();
+                        }
+                    }
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+
+                }
+            });
+
 
         }
     }
@@ -45,6 +96,8 @@ public class Window extends JPanel {
     }
 
     public void updateWindow(){
+        int oldscreenwidth = game.screenWidth;
+        int oldscreenheight = game.screenHight;
         while(true){
             if(game.screen == 1){
 
@@ -57,11 +110,15 @@ public class Window extends JPanel {
                         x = game.frame.getMousePosition().x;
                     } catch (Exception e) {
                     }
+                    if(oldscreenheight != game.screenHight || oldscreenwidth != game.screenWidth){
+                    restart.koordsUpdate((game.screenWidth/2*1)-75, game.screenHight/5, 150,50);
+                    backToMenu.koordsUpdate((game.screenWidth/2*1)-75, game.screenHight/5*2, 150,50);
+                    oldscreenwidth = game.screenWidth;
+                    oldscreenheight = game.screenHight;
+                    }
                     restart.buttonPointed(x,y);
                     backToMenu.buttonPointed(x,y);
                 }
-
-                repaint();
             }
             repaint();
         }

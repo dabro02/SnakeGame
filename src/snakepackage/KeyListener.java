@@ -18,11 +18,11 @@ public class KeyListener implements java.awt.event.KeyListener{
         System.out.println(e.getKeyChar());*/
         if(game.screen == 1){
         if(e.getKeyCode() == 0){
-            if(game.window.paused){
-                game.window.paused = false;
+            if(game.gui.paused){
+                game.gui.paused = false;
             }
             else{
-            game.window.paused = true;}
+            game.gui.paused = true;}
         }
         }
     }

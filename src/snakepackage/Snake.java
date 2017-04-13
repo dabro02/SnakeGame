@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Snake {
 
-    Snake() {
 
+    Snake() {
     }
 }

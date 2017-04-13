@@ -23,10 +23,12 @@ public class SnakeGame {
 
     void start() {
         frame = new JFrame("Snake - Game");
+
         frame.addKeyListener(new KeyListener(this));
         screen = 0;
         startMenu();
         gui.startMenu();
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }

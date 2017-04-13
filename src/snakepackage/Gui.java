@@ -16,10 +16,13 @@ public class Gui extends JPanel{
     //Gui
     Buttons startGame, exit, info, settings;
     //Game
-    Buttons restart, backToMenu;
+    Buttons restart,settingsInGame, backToMenu;
     boolean paused = false;
     GameArea area;
+    //Einstellungen
+    Settings settingsMenu;
     //Snake
+    Snake snake;
 
 
     Gui(SnakeGame game){
@@ -30,9 +33,12 @@ public class Gui extends JPanel{
             this.info = new Buttons(225, 270, 150, 50, Color.BLACK, 0, 0, 1, " Info");
             this.exit = new Buttons(225, 355, 150, 50, Color.BLACK, 0, 0, 1, " Beenden");
             //Game
-            this.restart = new Buttons((game.screenWidth/2*1)-75, game.screenHight/5, 150,50, Color.BLACK, 0.5f,0.6f,0, "Restart");
-            this.backToMenu = new Buttons((game.screenWidth/2*1)-75, game.screenHight/5*2, 150,50,Color.BLACK, 0.5f,0.6f,0, "Menü");
+            this.restart = new Buttons((game.screenWidth/2)-75, game.screenHight/9*2, 150,50, Color.BLACK, 0.5f,0.6f,0, "Restart");
+            this.backToMenu = new Buttons((game.screenWidth/2)-75, game.screenHight/9*3, 150,50,Color.BLACK, 0.5f,0.6f,0, "Menü");
+            this.settingsInGame = new Buttons((game.screenWidth/2)-75, game.screenHight/9*4, 150,50,Color.BLACK, 0.5f,0.6f,0,"Einstellungen");
             area = new GameArea(game);
+            //Einstellungen
+            settingsMenu = new Settings(game);
             game.frame.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -66,10 +72,18 @@ public class Gui extends JPanel{
                             restart.buttonPressed();
                             repaint();
                         }
+                        else if(settingsInGame.buttonPointed(e.getX(),e.getY())){
+                            settingsInGame.buttonPressed();
+                            repaint();
+                        }
                         else if(backToMenu.buttonPointed(e.getX(),e.getY())){
                             backToMenu.buttonPressed();
                             repaint();
                         }
+                    }
+                    //Einstellungen
+                    else if(game.screen == 2){
+                        settingsMenu.mousePressed(e);
                     }
 
                 }
@@ -81,12 +95,13 @@ public class Gui extends JPanel{
                         if (startGame.pressed) {
                             startGame.buttonReleased();
                             startGame.pressed = false;
-                            game.gui.startWindow();
+                            startWindow();
                             repaint();
                         }
                         else if (settings.pressed) {
                             settings.buttonReleased();
                             settings.pressed = false;
+                            settingsMenu.startSettings();
                             repaint();
                         }
                         else if (info.pressed) {
@@ -97,6 +112,7 @@ public class Gui extends JPanel{
                         else if (exit.pressed) {
                             exit.buttonReleased();
                             exit.pressed = false;
+                            settingsMenu.saveAsTxt();
                             System.exit(0);
                             repaint();
                         }
@@ -106,15 +122,25 @@ public class Gui extends JPanel{
                         if(restart.pressed){
                             restart.buttonReleased();
                             restart.pressed = false;
-                            game.gui.startWindow();
+                            startWindow();
+                            repaint();
+                        }
+                        else if(settingsInGame.pressed){
+                            settingsInGame.buttonReleased();
+                            settingsInGame.pressed = false;
+                            settingsMenu.startSettings();
                             repaint();
                         }
                         else if(backToMenu.pressed){
                             backToMenu.buttonReleased();
                             backToMenu.pressed = false;
-                            game.gui.startMenu();
+                            startMenu();
                             repaint();
                         }
+                    }
+                    //Einstellungen
+                    else if(game.screen == 2) {
+                        settingsMenu.mouseReleased();
                     }
                 }
 
@@ -138,26 +164,51 @@ public class Gui extends JPanel{
     }
 
     public void startMenu() {
-
+        game.fenster = 0;
         game.screen = 0;
         game.frame.setBounds(700, 200, 600, 600);
-        game.frame.setResizable(false);
 
     }
     public void startWindow() {
         paused = false;
+        game.fenster = 1;
         game.screen = 1;
-        game.frame.setBounds(200, 100, 1500, 900);
-        game.frame.setResizable(true);
+        switch(settingsMenu.actualSize) {
+            case 0:
+                game.frame.setBounds(0, 0, 854,480);
+                break;
+            case 1:
+                game.frame.setBounds(0, 0, 1280,720);
+                break;
+            case 2:
+                game.frame.setBounds( 0, 0, 1366,768);
+                break;
+            case 3:
+                game.frame.setBounds(0, 0, 1600, 900);
+                break;
+            case 4:
+                game.frame.setBounds(0,0,1920,1080);
+                break;
+            case 5:
+                game.frame.setBounds(0,0,4000,3000);
+                break;
+
+                default:
+                    game.frame.setBounds(0, 0, 854,480);
+                    break;
+        }
+        snake = new Snake(game);
+
+
     }
 
     @Override
     protected void paintComponent(Graphics g2){
+        Graphics2D g = (Graphics2D) g2;
+        super.paintComponent(g);
+        game.gui.setBackground(Color.DARK_GRAY);
         //Gui
         if(game.screen == 0) {
-            Graphics2D g = (Graphics2D) g2;
-            super.paintComponent(g);
-            game.gui.setBackground(Color.DARK_GRAY);
             g.setColor(Color.BLACK);
             startGame.render(g);
             settings.render(g);
@@ -166,40 +217,43 @@ public class Gui extends JPanel{
         }
         //Game
         else if(game.screen == 1) {
-            Graphics2D g = (Graphics2D) g2;
-            super.paintComponent(g);
-            game.gui.setBackground(Color.DARK_GRAY);
             g.setColor(new Color(0.44313726f, 0f, 0f));
             g.fillRect(0, 0, game.screenWidth, 20);
             g.fillRect(0, 0, 20, game.screenHight);
-            g.fillRect(0, game.screenHight - 57, game.screenWidth, 20);
-            g.fillRect(game.screenWidth - 35, 0, 20, game.screenHight);
+            g.fillRect(0, game.screenHight - 49, game.screenWidth, 20);
+            g.fillRect(game.screenWidth - 26, 0, 20, game.screenHight);
+            snake.drawSnake(g);
 
             if(paused){
                 g.setColor(new Color(0.5f,0.5f,0.5f,0.5f));
                 g.fillRect(0,0,game.screenWidth,game.screenHight);
                 restart.render(g);
+                settingsInGame.render(g);
                 backToMenu.render(g);
             }
+            //System.out.println(area.einheitenWidth+ "  "+area.einheitenHeight);
+        }
+        //Einstellungen
+        else if(game.screen == 2){
+            settingsMenu.drawSettings(g);
         }
     }
 
 
     public void updateGui(){
-        //for Game
-        int oldscreenwidth =  game.screenWidth;
-        int oldscreenheight = game.screenHight;
 
         while(true){
+            settingsMenu.saveAsTxt();
+            int y = 0;
+            int x = 0;
+            try {
+                y = game.frame.getMousePosition().y;
+                x = game.frame.getMousePosition().x;
+            }
+            catch(Exception e){}
             //Gui
             if(game.screen == 0){
-                int y = 0;
-                int x = 0;
-                try {
-                    y = game.frame.getMousePosition().y;
-                    x = game.frame.getMousePosition().x;
-                }
-                catch(Exception e){}
+
                 startGame.buttonPointed(x,y);
                 settings.buttonPointed(x,y);
                 info.buttonPointed(x,y);
@@ -209,23 +263,23 @@ public class Gui extends JPanel{
             else if(game.screen == 1){
                 game.getScreen();
                 if(paused) {
-                    int y = 0;
-                    int x = 0;
-                    try {
-                        y = game.frame.getMousePosition().y;
-                        x = game.frame.getMousePosition().x;
-                    } catch (Exception e) {
-                    }
-                    if(oldscreenheight != game.screenHight || oldscreenwidth != game.screenWidth){
-
-                        restart.koordsUpdate((game.screenWidth/2*1)-75, game.screenHight/5, 150,50);
-                        backToMenu.koordsUpdate((game.screenWidth/2*1)-75, game.screenHight/5*2, 150,50);
-                        oldscreenwidth = game.screenWidth;
-                        oldscreenheight = game.screenHight;
-                    }
+                    snake.right = false;
+                    snake.left = false;
+                    snake.top = false;
+                    snake.bot = false;
+                    restart.koordsUpdate((game.screenWidth/2*1)-75, game.screenHight/9*2, 150,50);
+                    settingsInGame.koordsUpdate((game.screenWidth/2*1)-75, game.screenHight/9*3, 150,50);
+                    backToMenu.koordsUpdate((game.screenWidth/2*1)-75, game.screenHight/9*4, 150,50);
                     restart.buttonPointed(x,y);
+                    settingsInGame.buttonPointed(x,y);
                     backToMenu.buttonPointed(x,y);
                 }
+                //Snake:
+                area.gameAreaUpdate();
+
+            }
+            else if(game.screen == 2) {
+                settingsMenu.settingsUpdate(x,y);
             }
             repaint();
         }

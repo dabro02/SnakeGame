@@ -21,7 +21,7 @@ public class Settings extends JPanel {
 
     Settings(SnakeGame game) {
         this.game = game;
-        Size = new File("size.txt");
+        Size = new File("size.ultimativedatei");
         if (!Size.exists()) {
             try {
                 Size.createNewFile();
@@ -160,7 +160,7 @@ public class Settings extends JPanel {
 
     public void readFromTxt() {
         try {
-            FileReader fr = new FileReader("size.txt");
+            FileReader fr = new FileReader("size.ultimativedatei");
             actualSize = fr.read();
         }
         catch(Exception e){

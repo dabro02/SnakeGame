@@ -10,7 +10,7 @@ import java.util.LinkedList;
 public class Snake {
 
     SnakeGame game;
-    LinkedList<Points> snake;
+    ArrayList<Points> snake;
     int xKoordHead = 3;
     int yKoordHead = 3;
     int direction = 0;
@@ -18,21 +18,34 @@ public class Snake {
 
     Snake(SnakeGame game) {
         this.game = game;
-        snake = new LinkedList();
+        snake = new ArrayList<>();
+        snake.add(new Points(xKoordHead,yKoordHead));
+        snake.add(new Points(xKoordHead,yKoordHead));
         snake.add(new Points(xKoordHead,yKoordHead));
         snakeMoves();
     }
 
     public void drawSnake(Graphics2D g) {
         g.setColor(Color.yellow);
-        g.fillRect(xKoordHead*game.gui.area.einheitenWidth, yKoordHead*game.gui.area.einheitenHeight, game.gui.area.einheitenWidth, game.gui.area.einheitenHeight);
+        for(Points point : snake) {
+            //System.out.println(point.getXKoordinate()+"  "+point.getYKoordinate() + "   "+ snake.size());
+            g.fillRect(point.getXKoordinate() * game.gui.area.einheitenWidth, point.getYKoordinate() * game.gui.area.einheitenHeight, game.gui.area.einheitenWidth, game.gui.area.einheitenHeight);
+        }
     }
 
     public void snakeMoves() {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                int previousX;
+                int previousY;
+                int prevX2;
+                int prevY2;
                 while(true){
+
+                    previousX = xKoordHead;
+                    previousY = yKoordHead;
+
                     if(right){
                         xKoordHead++;
                     }
@@ -45,14 +58,50 @@ public class Snake {
                     else if(bot){
                         yKoordHead++;
                     }
-                    //System.out.println(right+"  "+left+"  "+top+"  "+bot);
+
+                    for( Points point : snake){
+                        if(previousX == xKoordHead && previousY == yKoordHead) {
+                        }
+                        else {
+                            //System.out.println("new Koords:       " + point.xKoordinate + "  " + point.yKoordinate);
+                            prevX2 = point.xKoordinate;
+                            prevY2 = point.yKoordinate;
+                            point.xKoordinate = previousX;
+                            point.yKoordinate = previousY;
+                            previousX = prevX2;
+                            previousY = prevY2;
+                            /*
+                            if(point.xKoordinate == xKoordHead || point.yKoordinate == yKoordHead ){
+                                System.out.println(true);
+                                game.gui.losed = true;
+                            }*/
+                        }
+                        if(point.getXKoordinate() <= 1 || point.getXKoordinate() >= 70 || point.getYKoordinate() <= 1 || point.getYKoordinate() >= 40){
+                            game.gui.losed = true;
+                        }
+
+                    }
+                    game.gui.repaint();
                     try {
-                        Thread.sleep(200);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }
         }).start();
+    }
+
+    int xNewPoint;
+    int yNewPoint;
+
+    public void snakeEats() {
+
+        for(Points point : snake){
+            xNewPoint = point.getXKoordinate();
+            yNewPoint = point.getYKoordinate();
+        }
+        snake.add(new Points(xNewPoint,yNewPoint));
+        snake.add(new Points(xNewPoint,yNewPoint));
     }
 }

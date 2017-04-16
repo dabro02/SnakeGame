@@ -30,13 +30,13 @@ public class Settings extends JPanel {
             }
         }
         readFromTxt();
-        size1 = new Buttons(100,150,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "854 x 480");
-        size2 = new Buttons(100,250,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "1280 x 720");
-        size3 = new Buttons(100,350,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "1366 x 768");
-        size4 = new Buttons(350,150,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "1600 x 900");
-        size5 = new Buttons(350,250,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "1920 x 1080");
-        size6 = new Buttons(350,350,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "4000 x 3000");
-        back = new Buttons( 225,450,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "    Fertig");
+        size1 = new Buttons(100,150,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "854 x 480", 20);
+        size2 = new Buttons(100,250,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "1280 x 720", 20);
+        size3 = new Buttons(100,350,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "1366 x 768", 20);
+        size4 = new Buttons(350,150,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "1600 x 900", 20);
+        size5 = new Buttons(350,250,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "1920 x 1080", 20);
+        size6 = new Buttons(350,350,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "3840 x 2160", 20);
+        back = new Buttons( 225,450,150,50,Color.BLACK, 0.3f,0.5f,0.7f, "    Fertig", 20);
 
     }
 
@@ -54,6 +54,30 @@ public class Settings extends JPanel {
         size5.render(g);
         size6.render(g);
         back.render(g);
+        g.setColor(Color.lightGray);
+        switch(actualSize) {
+            case 0:
+                g.fillRoundRect(60,167,15,15, 25,25);
+                break;
+            case 1:
+                g.fillRoundRect(60,267,15,15, 25,25);
+                break;
+            case 2:
+                g.fillRoundRect(60,367,15,15, 25,25);
+                break;
+            case 3:
+                g.fillRoundRect(310,167,15,15, 25,25);
+                break;
+            case 4:
+                g.fillRoundRect(310,267,15,15, 25,25);
+                break;
+            case 5:
+                g.fillRoundRect(310,367,15,15, 25,25);
+                break;
+
+            default:
+                break;
+        }
     }
 
     public void settingsUpdate(int x, int y) {
@@ -137,6 +161,7 @@ public class Settings extends JPanel {
         if(back.pressed){
             back.buttonReleased();
             back.pressed = false;
+            saveAsTxt();
             if(game.fenster == 0){
                 game.gui.startMenu();
             }
@@ -166,9 +191,5 @@ public class Settings extends JPanel {
         catch(Exception e){
 
         }
-    }
-
-    public void setSize() {
-
     }
 }

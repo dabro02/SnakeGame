@@ -6,7 +6,7 @@ import java.awt.*;
  * Created by Daniel on 10.04.2017.
  */
 public class Buttons {
-    int x,y,w,h;
+    int x,y,w,h, Fontsize;
     String title;
     float rForeground, gForeground, bForeground;
     Color  foreground,foreground1, surround;
@@ -14,11 +14,12 @@ public class Buttons {
     boolean point =false;
     boolean pressed;
 
-    Buttons(int x, int y,int w, int h, Color surround, float rForeground, float gForeground, float bForeground, String name){
+    Buttons(int x, int y,int w, int h, Color surround, float rForeground, float gForeground, float bForeground, String name, int Fontsize){
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
+        this.Fontsize = Fontsize;
         this.surround = surround;
         this.rForeground = rForeground;
         this.gForeground = gForeground;
@@ -59,12 +60,13 @@ public class Buttons {
         g.setColor(surround);
         g.drawRect(x-1,y-1,w+1,h+1);
         if(pressed){
-            g.setFont(new Font("Calibri", 1, 22));
+            g.setFont(new Font("Calibri", 1, Fontsize+2));
         }
         else {
-            g.setFont(new Font("Calibri", 1, 20));
+            g.setFont(new Font("Calibri", 1, Fontsize));
         }
-        g.drawString(title, x+w/(titleLength+2)*2, y+(h/3*2));
+        System.out.println(titleLength);
+        g.drawString(title, (x+w/2-(titleLength*9/2)), y+(h/3*2));  //x+w/(titleLength+2)*2
         if(point){
             g.setColor(new Color(0.6f,0.6f,0.6f,0.8f));
             g.fillRect(x-1,y+h+1,w+4, 1);
@@ -99,11 +101,12 @@ public class Buttons {
         return point;
     }
 
-    public void koordsUpdate(int x, int y, int w, int h) {
+    public void koordsUpdate(int x, int y, int w, int h, int Fontsize) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
+        this.Fontsize = Fontsize;
     }
 
 }

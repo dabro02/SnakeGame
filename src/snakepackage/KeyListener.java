@@ -18,7 +18,7 @@ public class KeyListener implements java.awt.event.KeyListener{
     public void keyTyped(KeyEvent e) {
         /*System.out.println(e.getExtendedKeyCode());
         System.out.println(e.getKeyLocation());*/
-                System.out.println(e.getKeyChar());
+                //System.out.println(e.getKeyChar());
                 if(game.screen == 1){
                     if(e.getKeyChar() == '') {
                         if(game.gui.paused){
@@ -56,13 +56,13 @@ public class KeyListener implements java.awt.event.KeyListener{
                         }
                     }
                     else if(e.getKeyChar() == 's'){
-                        System.out.println(true);
                         if(!game.gui.paused){
                             game.gui.snake.bot = true;
                             game.gui.snake.right =false;
                             game.gui.snake.left = false;
                             game.gui.snake.top = false;
                             game.gui.snake.direction = 3;
+                            game.gui.snake.snakeEats();
                         }
                     }
                 }

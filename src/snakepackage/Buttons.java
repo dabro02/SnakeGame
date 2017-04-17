@@ -65,7 +65,6 @@ public class Buttons {
         else {
             g.setFont(new Font("Calibri", 1, Fontsize));
         }
-        System.out.println(titleLength);
         g.drawString(title, (x+w/2-(titleLength*9/2)), y+(h/3*2));  //x+w/(titleLength+2)*2
         if(point){
             g.setColor(new Color(0.6f,0.6f,0.6f,0.8f));

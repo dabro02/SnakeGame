@@ -62,7 +62,6 @@ public class KeyListener implements java.awt.event.KeyListener{
                             game.gui.snake.left = false;
                             game.gui.snake.top = false;
                             game.gui.snake.direction = 3;
-                            game.gui.snake.snakeEats();
                         }
                     }
                 }

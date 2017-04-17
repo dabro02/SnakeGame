@@ -24,6 +24,8 @@ public class Gui extends JPanel{
     Settings settingsMenu;
     //Snake
     Snake snake;
+    //Food
+    Food food;
 
 
     Gui(SnakeGame game){
@@ -136,6 +138,7 @@ public class Gui extends JPanel{
                         else if(backToMenu.pressed){
                             backToMenu.buttonReleased();
                             backToMenu.pressed = false;
+                            losed = false;
                             startMenu();
                             repaint();
                         }
@@ -163,6 +166,8 @@ public class Gui extends JPanel{
 
                     }
                 }).start();
+
+        //food = new Food(game);
     }
 
     public void startMenu() {
@@ -200,6 +205,10 @@ public class Gui extends JPanel{
                     game.frame.setBounds(0, 0, 854,480);
                     break;
         }
+        try{
+            game.gui.snake.snake.clear();
+        }
+        catch (Exception e){}
         snake = new Snake(game);
 
 
@@ -225,6 +234,9 @@ public class Gui extends JPanel{
             g.fillRect(0, 0, area.einheitenWidth, game.screenHight);
             g.fillRect(0, game.screenHight - 47+20-area.einheitenHeight, game.screenWidth, area.einheitenHeight);
             g.fillRect(game.screenWidth - 23+20-area.einheitenWidth, 0, area.einheitenWidth, game.screenHight);
+            //food
+            //food.drawFood();
+            //snake
             snake.drawSnake(g);
 
             if(paused){
@@ -299,6 +311,8 @@ public class Gui extends JPanel{
                 }
                 //Snake:
                 area.gameAreaUpdate();
+                //food
+                //food.eaten();
 
             }
             else if(game.screen == 2) {

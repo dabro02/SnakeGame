@@ -76,7 +76,7 @@ public class Snake {
                                 game.gui.losed = true;
                             }*/
                         }
-                        if(point.getXKoordinate() <= 1 || point.getXKoordinate() >= 70 || point.getYKoordinate() <= 1 || point.getYKoordinate() >= 40){
+                        if(point.getXKoordinate() < 1 || point.getXKoordinate() >= 70 || point.getYKoordinate() < 1 || point.getYKoordinate() >= 39){
                             game.gui.losed = true;
                         }
 
